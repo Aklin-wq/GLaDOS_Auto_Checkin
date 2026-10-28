@@ -14,11 +14,11 @@ class GLaDOSChecker:
         self._validate_env()
         self.email = os.environ["GLADOS_EMAIL"]
         self.cookie = os.environ["GLADOS_COOKIE"]
-        self.bot_token = os.environ["TG_BOT_TOKEN"]
-        self.chat_id = os.environ["TG_CHAT_ID"]
+        self.bot_token = os.environ.get("TG_BOT_TOKEN", "")
+        self.chat_id = os.environ.get("TG_CHAT_ID", "")
         
     def _validate_env(self):
-        required = {"GLADOS_EMAIL", "GLADOS_COOKIE", "TG_BOT_TOKEN", "TG_CHAT_ID"}
+        required = {"GLADOS_EMAIL", "GLADOS_COOKIE"}
         missing = required - set(os.environ)
         if missing:
             raise ValueError(f"Missing environment variables: {', '.join(missing)}")
@@ -79,6 +79,12 @@ class GLaDOSChecker:
         return False, f"未知响应: {msg} ❓"
 
     def send_notification(self, status: str, checkin_result: str):
+        print(f"签到结果: {checkin_result}")
+        print(f"账户状态: {status}")
+
+        if not self.bot_token or not self.chat_id:
+            print("未配置 Telegram，结果已显示在运行记录中。")
+            return
         message = (
             f"🕒 北京时间: {self._current_time()}\n"
             f"📧 账户: {self.email}\n\n"
