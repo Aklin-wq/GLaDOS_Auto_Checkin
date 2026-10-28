@@ -6,7 +6,7 @@ import datetime
 from typing import Tuple, Optional
 
 class GLaDOSChecker:
-    API_BASE = "https://glados.rocks/api/user"
+    API_BASE = "https://glados.cloud/api/user"
     CHECKIN_URL = f"{API_BASE}/checkin"
     STATUS_URL = f"{API_BASE}/status"
     
@@ -33,7 +33,7 @@ class GLaDOSChecker:
             "Cookie": self.cookie,
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
             "Content-Type": "application/json;charset=UTF-8",
-            "Origin": "https://glados.rocks"
+            "Origin": "https://glados.cloud"
         }
 
     def _parse_response(self, response: requests.Response) -> dict:
